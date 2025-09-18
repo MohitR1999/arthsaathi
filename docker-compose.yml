@@ -1,0 +1,144 @@
+services:
+  # ================
+  # Auth Service (AAA)
+  # ================
+  auth-service:
+    build: ./as-auth   # path where your Dockerfile is
+    container_name: auth-service
+    command: npm run dev
+    ports:
+      - "5000:5000"         # host:container
+      - "9229:9229"
+    depends_on:
+      - auth-db
+    networks:
+      - expense-net
+    develop:
+      watch:
+        # Rebuild when packages are added/removed
+        - action: rebuild
+          path: ./as-auth/package.json
+        
+        - action: sync+restart
+          path: ./as-auth/
+          target: /usr/src/app
+          exec:
+            command: npm run dev
+
+  # =====================
+  # Auth Service Database
+  # =====================
+  auth-db:
+    image: mysql:8.0
+    container_name: auth-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: authdb
+      MYSQL_USER: authuser
+      MYSQL_PASSWORD: authpass
+    ports:
+      - "3307:3306"   # external port to avoid clash with other MySQLs
+    volumes:
+      - auth-db-data:/var/lib/mysql
+    networks:
+      - expense-net
+
+  # ================
+  # Money handler service
+  # ================
+  money-handler:
+    build: ./as-money-handler   # path where your Dockerfile is
+    container_name: money-handler-service
+    command: npm run dev
+    ports:
+      - "5001:5001"         # host:container
+      - "9230:9230"
+    depends_on:
+      - money-db
+    networks:
+      - expense-net
+    develop:
+      watch:
+        # Rebuild when packages are added/removed
+        - action: rebuild
+          path: ./as-money-handler/package.json
+        
+        - action: sync+restart
+          path: ./as-money-handler/
+          target: /usr/src/app
+          exec:
+            command: npm run dev
+
+  # ================
+  # Report service
+  # ================
+  report-service:
+    build: ./as-reporter   # path where your Dockerfile is
+    container_name: report-service
+    command: npm run dev
+    ports:
+      - "5002:5002"         # host:container
+      - "9231:9231"
+    depends_on:
+      - money-db
+    networks:
+      - expense-net
+    develop:
+      watch:
+        # Rebuild when packages are added/removed
+        - action: rebuild
+          path: ./as-reporter/package.json
+        
+        - action: sync+restart
+          path: ./as-reporter/
+          target: /usr/src/app
+          exec:
+            command: npm run dev
+
+  web-client:
+    build: 
+      context: ./as-client
+      target: builder
+    container_name: arthsaathi-web
+    command: npm run dev
+    ports:
+      - "8080:8080"
+    networks:
+      - expense-net
+    develop:
+       watch:
+        # Rebuild when packages are added/removed
+        - action: rebuild
+          path: ./as-client/package.json
+      
+        - action: sync
+          path: ./as-client/
+          target: /usr/src/app
+          exec:
+            command: npm run dev
+  # =====================
+  # Money database
+  # =====================
+  money-db:
+    image: mysql:8.0
+    container_name: money-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: moneydb
+      MYSQL_USER: moneyuser
+      MYSQL_PASSWORD: moneypass
+    ports:
+      - "3308:3306"   # external port to avoid clash with other MySQLs
+    volumes:
+      - money-db-data:/var/lib/mysql
+    networks:
+      - expense-net
+volumes:
+ auth-db-data:
+ money-db-data:
+
+networks:
+  expense-net:
+    driver: bridge
