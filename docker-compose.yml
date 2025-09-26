@@ -14,6 +14,7 @@ services:
       MYSQL_USER: authuser
       MYSQL_PASSWORD: authpass
       MYSQL_HOSTNAME: auth-db
+      MYSQL_PORT: 3306
     
     depends_on:
       - auth-db
