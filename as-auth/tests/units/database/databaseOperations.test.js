@@ -41,11 +41,11 @@ describe("CRUD Operations for User", () => {
     })
 
     it("Finding a user by id should succeed", async () => {
-        const fetchedUser = await connection.getById(user.id);
-        expect(fetchedUser.id).toEqual(user.id);
-        expect(fetchedUser.firstName).toEqual(user.firstName);
-        expect(fetchedUser.lastName).toEqual(user.lastName);
-        expect(fetchedUser.email).toEqual(user.email);
+        const fetchedUsers = await connection.getById(user.id);
+        expect(fetchedUsers[0].id).toEqual(user.id);
+        expect(fetchedUsers[0].firstName).toEqual(user.firstName);
+        expect(fetchedUsers[0].lastName).toEqual(user.lastName);
+        expect(fetchedUsers[0].email).toEqual(user.email);
     });
 
     it("Fetching all users in the database should succeed", async () => {
