@@ -11,6 +11,10 @@ class Database {
 
     }
 
+    getByEmail = async () => {
+        
+    }
+
     getAll = async () => {
 
     }
