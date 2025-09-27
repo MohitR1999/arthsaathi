@@ -24,7 +24,7 @@ app.set('port', port);
 var server = http.createServer(app);
 
 // Initialize MySQL
-if (process.env != "test") {
+if (process.env.NODE_ENV != "test") {
   let dbConnection = getDbConnectionInstance();
   dbConnection.initialize();
 }
