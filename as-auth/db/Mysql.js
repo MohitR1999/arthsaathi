@@ -56,7 +56,8 @@ class MySQLDB extends Database {
                 id: object.id,
                 firstName: object.first_name,
                 lastName: object.last_name,
-                email: object.email
+                email: object.email,
+                password : object.password
             }));
         } catch (err) {
             console.log(err);
@@ -76,7 +77,8 @@ class MySQLDB extends Database {
                 id: object.id,
                 firstName: object.first_name,
                 lastName: object.last_name,
-                email: object.email
+                email: object.email,
+                password : object.password
             }));
         } catch (err) {
             console.log(err);
@@ -95,7 +97,8 @@ class MySQLDB extends Database {
                 id: object.id,
                 firstName: object.first_name,
                 lastName: object.last_name,
-                email: object.email
+                email: object.email,
+                password : object.password
             }));
         } catch (error) {
             console.log(error);
