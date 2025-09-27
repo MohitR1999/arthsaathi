@@ -16,13 +16,21 @@ class MockDatabase extends Database {
     }
 
     create = async (user) => {
+        if (user.email == "test@throwsexception.com") throw new Error("Database operation failed!");
         this.database.push(user);
         return true;
     }
 
     getById = async (id) => {
         const user = this.database.find(user => user.id == id);
-        return user;
+        if (user) return [user];
+        return [];
+    }
+
+    getByEmail = async (email) => {
+        const user = this.database.find(user => user.email == email);
+        if (user) return [user];
+        return [];
     }
 
     getAll = async () => {
