@@ -1,27 +1,37 @@
 const ERRORS = {
     INVALID_FIRST_NAME : {
         STATUS_CODE : 400,
-        ERROR_MSG : "Invalid first name. Please provide an alphanumeric first name"
+        ERROR_MSG : "Invalid first name"
     },
 
     INVALID_LAST_NAME : {
         STATUS_CODE : 400,
-        ERROR_MSG : "Invalid last name. Please provide an alphanumeric last name"
+        ERROR_MSG : "Invalid last name"
     },
 
     INVALID_EMAIL : {
         STATUS_CODE : 400,
-        ERROR_MSG : "Invalid email address. Please provide an valid email address"
+        ERROR_MSG : "Invalid email"
     },
 
     INVALID_PASSWORD : {
         STATUS_CODE : 400,
-        ERROR_MSG : "Invalid password. Please provide an valid password"
+        ERROR_MSG : "Invalid password"
+    },
+
+    NOT_FOUND : {
+        STATUS_CODE : 404,
+        ERROR_MSG : "User not found"
     },
 
     INTERNAL_SERVER_ERROR : {
         STATUS_CODE : 500,
-        ERROR_MSG : "Some server error occured. Please try again later"
+        ERROR_MSG : "Some error occured. Please try again later"
+    },
+
+    DUPLICATE_USER : {
+        STATUS_CODE : 400,
+        ERROR_MSG : "A user with same email has been already registered. Please try logging in."
     }
 };
 
