@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+const getDbConnectionInstance = require("../db/connector");
 var app = require('../app');
 var debug = require('debug')('as-money-handler:server');
 var http = require('http');
@@ -20,6 +20,12 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+// Initialize MySQL
+if (process.env.NODE_ENV != "test") {
+  let dbConnection = getDbConnectionInstance();
+  dbConnection.initialize();
+}
 
 /**
  * Listen on provided port, on all network interfaces.
