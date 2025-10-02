@@ -5,7 +5,7 @@ services:
   auth-db:
     image: mysql:8.0
     container_name: auth-db
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: authdb
@@ -24,7 +24,7 @@ services:
   money-db:
     image: mysql:8.0
     container_name: money-db
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: moneydb
