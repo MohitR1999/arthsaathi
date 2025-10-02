@@ -16,9 +16,6 @@ services:
       MYSQL_HOSTNAME: auth-db
       MYSQL_PORT: 3306
       JWT_SECRET: this_is_a_long_jwt_secret
-    
-    depends_on:
-      - auth-db
     networks:
       - expense-net
     develop:
@@ -33,25 +30,6 @@ services:
           exec:
             command: npm run dev
 
-  # =====================
-  # Auth Service Database
-  # =====================
-  auth-db:
-    image: mysql:8.0
-    container_name: auth-db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: authdb
-      MYSQL_USER: authuser
-      MYSQL_PASSWORD: authpass
-    ports:
-      - "3307:3306"   # external port to avoid clash with other MySQLs
-    volumes:
-      - auth-db-data:/var/lib/mysql
-    networks:
-      - expense-net
-
   # ================
   # Money handler service
   # ================
@@ -62,8 +40,6 @@ services:
     ports:
       - "5001:5001"         # host:container
       - "9230:9230"
-    depends_on:
-      - money-db
     networks:
       - expense-net
     develop:
@@ -88,8 +64,6 @@ services:
     ports:
       - "5002:5002"         # host:container
       - "9231:9231"
-    depends_on:
-      - money-db
     networks:
       - expense-net
     develop:
@@ -125,28 +99,7 @@ services:
           target: /usr/src/app
           exec:
             command: npm run dev
-  # =====================
-  # Money database
-  # =====================
-  money-db:
-    image: mysql:8.0
-    container_name: money-db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: moneydb
-      MYSQL_USER: moneyuser
-      MYSQL_PASSWORD: moneypass
-    ports:
-      - "3308:3306"   # external port to avoid clash with other MySQLs
-    volumes:
-      - money-db-data:/var/lib/mysql
-    networks:
-      - expense-net
-volumes:
- auth-db-data:
- money-db-data:
-
+  
 networks:
   expense-net:
     driver: bridge
