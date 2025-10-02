@@ -40,6 +40,12 @@ services:
     ports:
       - "5001:5001"         # host:container
       - "9230:9230"
+    environment:
+      MYSQL_DATABASE: moneydb
+      MYSQL_USER: moneyuser
+      MYSQL_PASSWORD: moneypass
+      MYSQL_HOSTNAME: money-db
+      MYSQL_PORT: 3306
     networks:
       - expense-net
     develop:
