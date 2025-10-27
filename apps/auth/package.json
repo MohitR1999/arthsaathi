@@ -1,0 +1,32 @@
+{
+  "name": "arthsaathi-auth",
+  "version": "0.0.1",
+  "description": "Authentication microservice for arthsaathi",
+  "keywords": [
+    "authentication",
+    "authorization",
+    "auditing",
+    "express",
+    "nodejs",
+    "typescript",
+    "jest"
+  ],
+  "license": "ISC",
+  "author": "Mohit Ranjan",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.38.0",
+    "eslint": "^9.38.0",
+    "globals": "^14.0.0",
+    "jiti": "^2.6.1",
+    "typescript-eslint": "^8.46.2",
+    "@arthsaathi/typescript-config": "*"
+  }
+}

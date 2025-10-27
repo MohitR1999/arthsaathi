@@ -1,0 +1,17 @@
+{
+  "name": "@arthsaathi/helpers",
+  "version": "0.0.1",
+  "description": "A utility package for multiple components that will be shared across arthsaathi",
+  "keywords": [
+    "utils",
+    "helpers",
+    "constants"
+  ],
+  "license": "ISC",
+  "author": "Mohit Ranjan",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
