@@ -1,0 +1,14 @@
+{
+  "packageManager": "npm@11.4.2",
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "turbo": "^2.5.8"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
