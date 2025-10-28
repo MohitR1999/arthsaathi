@@ -19,14 +19,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@arthsaathi/typescript-config": "*",
     "@eslint/js": "^9.38.0",
     "eslint": "^9.38.0",
     "globals": "^14.0.0",
     "jiti": "^2.6.1",
-    "typescript-eslint": "^8.46.2",
-    "@arthsaathi/typescript-config": "*"
+    "typescript-eslint": "^8.46.2"
   }
 }
