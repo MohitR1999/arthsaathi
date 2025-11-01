@@ -1,111 +1,87 @@
 services:
-  # ================
-  # Auth Service (AAA)
-  # ================
-  auth-service:
-    build: ./as-auth   # path where your Dockerfile is
-    container_name: auth-service
+  auth:
+    container_name: arthsaathi-auth
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
     command: npm run dev
     ports:
-      - "5000:5000"         # host:container
-      - "9229:9229"
+      - 5000:5000
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./apps/auth
+          target: /app/apps/auth
+        
+        - action: sync+restart
+          path: ./packages/helpers
+          target: /app/packages/helpers
+
+        - action: sync+restart
+          path: ./packages/models
+          target: /app/packages/models
+
+        - action: rebuild
+          path: ./apps/auth/package.json
+
+        - action: rebuild
+          path: ./packages/helpers/package.json
+
+        - action: rebuild
+          path: ./packages/models/package.json
+    depends_on:
+      auth-db:
+        condition: service_healthy
+        restart: true
+
+  auth-db:
+    image: mysql:8.0
+    container_name: auth-db
+    restart: unless-stopped
     environment:
+      MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: authdb
       MYSQL_USER: authuser
       MYSQL_PASSWORD: authpass
-      MYSQL_HOSTNAME: auth-db
-      MYSQL_PORT: 3306
-      JWT_SECRET: this_is_a_long_jwt_secret
+    ports:
+      - "3307:3306"   # external port to avoid clash with other MySQLs
+    volumes:
+      - auth-db-data:/var/lib/mysql
     networks:
       - expense-net
-    develop:
-      watch:
-        # Rebuild when packages are added/removed
-        - action: rebuild
-          path: ./as-auth/package.json
-        
-        - action: sync+restart
-          path: ./as-auth/
-          target: /usr/src/app
-          exec:
-            command: npm run dev
+    healthcheck:
+      test: mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      timeout: 10s
+      retries: 10
 
-  # ================
-  # Money handler service
-  # ================
-  money-handler:
-    build: ./as-money-handler   # path where your Dockerfile is
-    container_name: money-handler-service
-    command: npm run dev
-    ports:
-      - "5001:5001"         # host:container
-      - "9230:9230"
+  # =====================
+  # Money database
+  # =====================
+  money-db:
+    image: mysql:8.0
+    container_name: money-db
+    restart: unless-stopped
     environment:
+      MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_DATABASE: moneydb
       MYSQL_USER: moneyuser
       MYSQL_PASSWORD: moneypass
-      MYSQL_HOSTNAME: money-db
-      MYSQL_PORT: 3306
-    networks:
-      - expense-net
-    develop:
-      watch:
-        # Rebuild when packages are added/removed
-        - action: rebuild
-          path: ./as-money-handler/package.json
-        
-        - action: sync+restart
-          path: ./as-money-handler/
-          target: /usr/src/app
-          exec:
-            command: npm run dev
-
-  # ================
-  # Report service
-  # ================
-  report-service:
-    build: ./as-reporter   # path where your Dockerfile is
-    container_name: report-service
-    command: npm run dev
     ports:
-      - "5002:5002"         # host:container
-      - "9231:9231"
+      - "3308:3306"   # external port to avoid clash with other MySQLs
+    volumes:
+      - money-db-data:/var/lib/mysql
     networks:
       - expense-net
-    develop:
-      watch:
-        # Rebuild when packages are added/removed
-        - action: rebuild
-          path: ./as-reporter/package.json
-        
-        - action: sync+restart
-          path: ./as-reporter/
-          target: /usr/src/app
-          exec:
-            command: npm run dev
+    healthcheck:
+      test: mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      timeout: 10s
+      retries: 10
 
-  web-client:
-    build: 
-      context: ./as-client
-      target: builder
-    container_name: arthsaathi-web
-    command: npm run dev
-    ports:
-      - "8080:8080"
-    networks:
-      - expense-net
-    develop:
-       watch:
-        # Rebuild when packages are added/removed
-        - action: rebuild
-          path: ./as-client/package.json
-      
-        - action: sync
-          path: ./as-client/
-          target: /usr/src/app
-          exec:
-            command: npm run dev
-  
+
+volumes:
+ auth-db-data:
+ money-db-data:
+
 networks:
   expense-net:
     driver: bridge
