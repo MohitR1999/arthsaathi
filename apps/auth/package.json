@@ -14,11 +14,13 @@
   "license": "ISC",
   "author": "Mohit Ranjan",
   "type": "commonjs",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "dependencies": {
+    "@arthsaathi/helpers": "*",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "mysql2": "^3.15.3",
@@ -27,9 +29,13 @@
   "devDependencies": {
     "@arthsaathi/typescript-config": "*",
     "@eslint/js": "^9.38.0",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.9.2",
     "eslint": "^9.38.0",
     "globals": "^14.0.0",
     "jiti": "^2.6.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2"
   }
 }
