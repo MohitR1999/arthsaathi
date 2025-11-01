@@ -1,0 +1,221 @@
+openapi: "3.0.3"
+
+info:
+  title: ArthSaathi auth service
+  version: '1.0'
+
+paths:
+  /api/auth/login:
+      post:
+        description: 'Login endpoint with credentials'
+        parameters: []
+        requestBody:
+          description: This endpoint is used to log in to the application and fetch a token for subsequent authorized calls
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                 - email
+                 - password
+                properties:
+                 email:
+                  type: string
+                 password:
+                  type: string
+              examples:
+                sample_login:
+                  summary: 'Test credentials'
+                  value:
+                    email: 'test@foo.com'
+                    password: 'testpassword'
+
+        responses:
+          '200':
+            description: Successful login with credentials
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    jwt:
+                      type: string
+                examples:
+                  sample_response:
+                    summary: Successful login
+                    value:
+                      jwt: 'test-encoded-jwt-for-you'
+          '401':
+            description: Wrong credentials passed
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  wrong_creds:
+                    summary: Wrong credentials
+                    value:
+                      message: 'Invalid email or password'
+          '400':
+            description: Malformed request, either username or password or both are missing
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  missing_email:
+                    summary: Missing email
+                    value:
+                      message: 'Missing email'
+                  missing_password:
+                    summary: Missing password
+                    value:
+                      message: 'Missing password'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  server_error:
+                    summary: Internal server error
+                    value:
+                      message: 'Some error occured. Please try again later'
+  
+  /api/auth/register:
+    post:
+        description: 'Registration endpoint with details'
+        parameters: []
+        requestBody:
+          description: This endpoint is used to register to the system and create an account
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                 - firstName
+                 - lastName
+                 - email
+                 - password
+                properties:
+                 firstName:
+                  type: string
+                 lastName:
+                  type: string
+                 email:
+                  type: string
+                 password:
+                  type: string
+              examples:
+                test_user:
+                  summary: 'A test user'
+                  value:
+                    firstName: 'John'
+                    lastName: 'Doe'
+                    email: 'test@foo.com'
+                    password: 'testpassword'
+
+        responses:
+          '201':
+            description: Successful register with details
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  sample_response:
+                    summary: Successful register
+                    value:
+                      message: 'User registered successfully'
+
+          '400':
+            description: Malformed request
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  invalid_first_name:
+                    summary: Invalid first name
+                    value:
+                      message: 'Invalid first name'
+                  invalid_last_name:
+                    summary: Invalid last name
+                    value:
+                      message: 'Invalid last name'
+                  invalid_email:
+                    summary: Invalid email
+                    value:
+                      message: 'Invalid email'
+                  invalid_password:
+                    summary: Invalid password
+                    value:
+                      message: 'Invalid password'
+                  duplicate_email:
+                    summary: Duplicate email being used
+                    value:
+                      message: A user with same email has been already registered. Please try logging in.
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  server_error:
+                    summary: Internal server error
+                    value:
+                      message: 'Some error occured. Please try again later'
+  
+  /api/auth/verify:
+      
+    post:
+        description: 'JWT verification endpoint'
+        parameters:
+         - in: header
+           name: 'Authorization'
+           description: 'The JWT authorization token'
+           schema:
+            type: string
+
+        responses:
+          '200':
+            description: Successful verification
+          '401':
+            description: Unauthorized. JWT token is either invalid or expired
+
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                examples:
+                  server_error:
+                    summary: Internal server error
+                    value:
+                      message: 'Some error occured. Please try again later'
