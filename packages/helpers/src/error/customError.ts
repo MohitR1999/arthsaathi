@@ -10,6 +10,7 @@ class CustomError extends Error {
     constructor({ message, code }: CustomErrorProps) {
         super(message)
         this.code = code
+        this.message = message
     }
 }
 

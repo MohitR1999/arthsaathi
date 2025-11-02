@@ -11,7 +11,8 @@
   "author": "Mohit Ranjan",
   "exports": {
     "./messages" : "./src/constants/messages.ts",
-    "./codes": "./src/constants/codes.ts"
+    "./codes": "./src/constants/codes.ts",
+    "./error": "./src/error/customError.ts"
   },
   "scripts": {
     "dev": "tsc --watch",
