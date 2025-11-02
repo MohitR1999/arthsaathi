@@ -9,7 +9,8 @@ const config: Config = {
     testEnvironment: "node",
     transform: {
         ...tsJestTransformCfg
-    }
+    },
+    testPathIgnorePatterns: ["/node_modules/", "/dist/"]
 };
 
 export default config;
