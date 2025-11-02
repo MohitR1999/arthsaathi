@@ -37,6 +37,7 @@
     "@eslint/js": "^9.38.0",
     "@jest/globals": "^30.2.0",
     "@types/express": "^5.0.5",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.9.2",
     "@types/supertest": "^6.0.3",
     "babel-jest": "^30.2.0",
@@ -45,6 +46,7 @@
     "jiti": "^2.6.1",
     "sequelize-cli": "^6.6.3",
     "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.2"
