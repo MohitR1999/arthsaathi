@@ -1,12 +1,16 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 jest.mock('sequelize', () => {
-    const db = [];
+    const db:any = [];
     
     const mockSequelize = {
         authenticate: jest.fn(),
         models: {
             User: {
-                count: jest.fn(() => 0),
+                count: jest.fn((element: any) => {
+                    return db.filter((e: any) => e.email === element.where.email).length;
+                }),
                 create: jest.fn((element) => {
+                    if (element.email.includes('throwsexception')) throw new Error('Internal server error');
                     db.push(element);
                 }),
             }
