@@ -26,7 +26,6 @@ const makeRouter = (sequelize: Sequelize) => {
                 await User.create({...user});
                 res.status(STATUS_CODES.CREATED).json({ message: MESSAGES.SUCCESSFUL_REGISTER });
             } catch (error) {
-                console.log(error);
                 if (error instanceof z.ZodError) {
                     const issue = error.issues[0];
                     const path = issue?.path[0];
