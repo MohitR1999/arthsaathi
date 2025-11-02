@@ -1,7 +1,8 @@
-import { Sequelize, DataTypes, ModelOptions } from 'sequelize'
+import { Sequelize, DataTypes, ModelOptions } from 'sequelize';
+import bcrypt from 'bcrypt';
 
 export const makeUserModel = (sequelize: Sequelize, modelOptions?: ModelOptions) => {
-    return sequelize.define(
+    const User = sequelize.define(
         'User',
         {
             firstName: {
@@ -27,5 +28,13 @@ export const makeUserModel = (sequelize: Sequelize, modelOptions?: ModelOptions)
             }
         },
         modelOptions
-    )
-}
+    );
+
+    User.beforeCreate(async (user) => {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(user.getDataValue('password'), salt);
+        user.setDataValue('password', hashedPassword);
+    });
+
+    return User;
+};
