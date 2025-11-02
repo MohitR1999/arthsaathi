@@ -10,9 +10,9 @@ describe('Health check for the service', () => {
     let app: Express;
     let sequelize;
 
-    beforeAll(() => {
+    beforeAll(async () => {
         sequelize = new Sequelize();
-        app = makeApp(sequelize);
+        app = await makeApp(sequelize);
     });
     
     it('Should return OK message when hitting the default route', async () => {

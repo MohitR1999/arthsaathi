@@ -17,7 +17,7 @@ const runApp = async () => {
     try {
         await sequelize.authenticate();
         console.log('Connection to database established successfully!');
-        const app = makeApp(sequelize);
+        const app = await makeApp(sequelize);
         app.listen(PORT, () => {
             console.log(`App is listening on port: ${PORT}!`);
         });
