@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@arthsaathi/helpers": "*",
+    "@arthsaathi/models": "*",
     "@types/morgan": "^1.9.10",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
