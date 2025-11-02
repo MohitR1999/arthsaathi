@@ -25,6 +25,7 @@
     "@arthsaathi/helpers": "*",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "morgan": "^1.10.1",
     "mysql2": "^3.15.3",
     "sequelize": "^6.37.7",
     "zod": "^4.1.12"
