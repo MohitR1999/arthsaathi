@@ -9,9 +9,20 @@
   ],
   "license": "ISC",
   "author": "Mohit Ranjan",
-  "type": "commonjs",
-  "main": "index.js",
+  "exports": {
+    "./messages" : "./src/constants/messages.ts",
+    "./codes": "./src/constants/codes.ts"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@arthsaathi/typescript-config": "*",
+    "jest": "^30.2.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "zod": "^4.1.12"
   }
 }
