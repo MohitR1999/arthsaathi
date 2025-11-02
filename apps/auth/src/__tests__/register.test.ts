@@ -78,7 +78,7 @@ describe("Register endpoint test - Unsuccessful scenarios", () => {
         lastName : "Ranjan",
         email : "test@throwsexception.com",
         password : "password"
-    }
+    };
 
     it("should throw error in case first name is not valid", async () => {
         const res = await supertest(app).post("/api/auth/register").send({...userToBeRegisterdWithInvalidFirstName});
