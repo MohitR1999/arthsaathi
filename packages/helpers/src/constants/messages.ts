@@ -7,5 +7,7 @@ export const MESSAGES = {
     INVALID_EMAIL: "Invalid email",
     INVALID_PASSWORD: "Invalid password",
     DUPLICATE_EMAIL: "A user with same email has been already registered. Please try logging in.",
-    SERVER_ERROR: "Some error occured. Please try again later"
-} 
+    SERVER_ERROR: "Some error occured. Please try again later",
+    USER_NOT_FOUND: "User not found",
+    INVALID_CREDENTIALS: "Username or password is incorrect",
+};
