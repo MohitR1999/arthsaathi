@@ -4,4 +4,4 @@ export const STATUS_CODES = {
     CREATED: 201,
     BAD_REQUEST: 400,
     SERVER_ERROR: 500,
-}
+};
