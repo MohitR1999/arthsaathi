@@ -1,6 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 jest.mock('sequelize', () => {
-    const db:any = [];
+    const db: any = [];
     
     const mockSequelize = {
         authenticate: jest.fn(),
@@ -11,7 +11,13 @@ jest.mock('sequelize', () => {
                 }),
                 create: jest.fn((element) => {
                     if (element.email.includes('throwsexception')) throw new Error('Internal server error');
-                    db.push(element);
+                    db.push({ ...element, id: 'test-id', getDataValue: function(this: any, key: string) { return this[key]; }});
+                }),
+                findOne: jest.fn((query) => {
+                    const user = db.find((e: any) => {
+                        return e.email === query.where.email;
+                    });
+                    return user;
                 }),
             }
         },

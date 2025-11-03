@@ -6,12 +6,14 @@ import { Sequelize } from 'sequelize';
 import { makeUserModel } from '@arthsaathi/models/user';
 import morgan from 'morgan';
 import { makeRouter as makeRegisterRouter } from '../routes/register';
+import { makeRouter as makeLoginRouter } from '../routes/login';
 import bodyParser from 'body-parser';
 
 export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
     const app = express();
     const User = makeUserModel(sequelize);
     const register = makeRegisterRouter(sequelize);
+    const login = makeLoginRouter(sequelize);
     try {
         await User.sync();
         console.log('Table(s) created successfully!');
@@ -22,6 +24,7 @@ export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
             res.status(STATUS_CODES.OK).json({ message: MESSAGES.HEALTHY_MESSAGE });
         });
         app.use('/api/auth', register);
+        app.use('/api/auth', login);
         app.use((req: Request, res: Response) => {
             res.status(STATUS_CODES.NOT_FOUND).json({ message: MESSAGES.ROUTE_NOT_FOUND });
         });
