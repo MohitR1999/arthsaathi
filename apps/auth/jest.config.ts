@@ -5,6 +5,7 @@ const tsJestTransformCfg = createDefaultPreset().transform;
 
 const config: Config = {
     verbose: true,
+    setupFiles: ['./src/test-setup/setup.ts'],
     setupFilesAfterEnv: ['./src/test-setup/setupAfterEnv.ts'],
     testEnvironment: "node",
     transform: {

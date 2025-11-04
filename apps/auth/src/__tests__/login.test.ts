@@ -24,7 +24,6 @@ describe("Login endpoint test - Successful scenarios", () => {
     beforeAll(async () => {
         sequelize = new Sequelize();
         app = await makeApp(sequelize);
-        process.env.JWT_SECRET = "this_is_a_long_test_jwt_secret";
     });
 
     it("should login successfully with correct credentials", async () => {
