@@ -1,0 +1,514 @@
+openapi: 3.0.3
+info:
+  title: Categorization & Cash Flow API
+  version: 1.0.0
+  description: |
+    This API provides endpoints to manage **Categories/Subcategories** and **Cash Flows**.
+    All endpoints require Bearer token authentication.
+
+paths:
+  /api/category:
+    post:
+      summary: Create a sub category
+      description: Endpoint for creating a sub category under a category (`INCOME` or `EXPENSE`)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          required: true
+          description: The category type, which will be INCOME or EXPENSE
+          schema:
+            type: string
+            enum: [INCOME, EXPENSE]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sub_category:
+                  type: string
+                  example: Salary
+              required: [sub_category]
+      responses:
+        "201":
+          description: Sub category created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Sub category created successfully
+        "400":
+          description: Invalid category or sub category name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Invalid sub category name. Please enter a valid name
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+    get:
+      summary: Get all or a specific sub category
+      description: |
+        - When called with only `type`, returns all sub categories for that type.
+        - When called with both `type` and `sub_category`, returns the specific sub category.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          required: true
+          description: The category type, which will be INCOME or EXPENSE
+          schema:
+            type: string
+            enum: [INCOME, EXPENSE]
+        - name: sub_category
+          in: query
+          required: false
+          description: The sub category name (optional, required only for fetching a specific sub category)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful retrieval of sub categories
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: id1
+                        sub_category:
+                          type: string
+                          example: sub category 1
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        example: id2
+                      sub_category:
+                        type: string
+                        example: sub category 2
+        "400":
+          description: Invalid category or sub category name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Invalid category name. Please select a valid category
+        "404":
+          description: Not found — either no sub categories or sub category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: No sub categories created yet
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+    put:
+      summary: Modify a specific sub category
+      description: Endpoint for modifying a specific sub category under a category
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          required: true
+          description: The category type, which will be INCOME or EXPENSE
+          schema:
+            type: string
+            enum: [INCOME, EXPENSE]
+        - name: sub_category
+          in: query
+          required: true
+          description: The name of the sub category which has been saved earlier
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sub_category:
+                  type: string
+                  example: Updated sub category
+      responses:
+        "200":
+          description: Sub category modified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Sub category modified successfully
+        "400":
+          description: Invalid category or sub category name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Invalid sub category name. Please enter a valid name
+        "404":
+          description: Sub category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Sub category not found
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+    delete:
+      summary: Delete a specific sub category
+      description: Endpoint for deleting a sub category under a category
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: type
+          in: query
+          required: true
+          description: The category type, which will be INCOME or EXPENSE
+          schema:
+            type: string
+            enum: [INCOME, EXPENSE]
+        - name: sub_category
+          in: query
+          required: true
+          description: The name of the sub category which has been saved earlier
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Sub category deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Sub category deleted successfully
+        "400":
+          description: Invalid category or sub category name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Invalid category name. Please select a valid category
+        "404":
+          description: Sub category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Sub category not found
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/cashflow:
+    post:
+      summary: Create a cash flow
+      description: Endpoint for creating a new cash flow entry
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  format: float
+                  example: 200.0
+                category:
+                  type: string
+                  enum: [INCOME, EXPENSE]
+                sub_category:
+                  type: string
+                  example: Food
+                description:
+                  type: string
+                  nullable: true
+                  example: Some description
+              required: [amount, category, sub_category]
+      responses:
+        "201":
+          description: Cash flow created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Cash flow created successfully
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+    get:
+      summary: Get cash flows
+      description: |
+        - With no params: Get all cash flows  
+        - With `category`: Get all cash flows of that category  
+        - With `id`: Get a specific cash flow
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: category
+          in: query
+          required: false
+          description: The category of cash flows to fetch (INCOME or EXPENSE)
+          schema:
+            type: string
+            enum: [INCOME, EXPENSE]
+        - name: id
+          in: query
+          required: false
+          description: The unique ID of a specific cash flow
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cash flows retrieved successfully
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: id1
+                        date:
+                          type: string
+                          example: 2025-11-04T18:30:00Z
+                        amount:
+                          type: number
+                          example: 200.0
+                        category:
+                          type: string
+                          example: income
+                        sub_category:
+                          type: string
+                          example: payment
+                        description:
+                          type: string
+                          example: some description
+                        user_id:
+                          type: string
+                          example: user_id1
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                        example: id2
+                      date:
+                        type: string
+                        example: 2025-11-04T18:30:00Z
+                      amount:
+                        type: number
+                        example: 300.0
+                      category:
+                        type: string
+                        example: expense
+                      sub_category:
+                        type: string
+                        example: food
+                      description:
+                        type: string
+                        example: some description
+                      user_id:
+                        type: string
+                        example: user_id1
+        "400":
+          description: Invalid parameter (category or id)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Invalid category name. Please select a valid category
+        "404":
+          description: No cash flows found or invalid id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: No cash flows found
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+    put:
+      summary: Modify a specific cash flow
+      description: Endpoint for modifying a specific cash flow by its ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: The unique ID of the specific cash flow
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                amount:
+                  type: number
+                  format: float
+                  example: 300.0
+                category:
+                  type: string
+                  enum: [INCOME, EXPENSE]
+                sub_category:
+                  type: string
+                  example: Shopping
+                description:
+                  type: string
+                  nullable: true
+                  example: Updated description
+      responses:
+        "200":
+          description: Cash flow modified successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Cash flow modified successfully
+        "400":
+          description: Invalid id or request body parameter
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Invalid cash flow id
+        "404":
+          description: Cash flow not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: No such cash flow found
+        "500":
+          description: Server error while modifying
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Failed to modify the specific cash flow. Please try again later
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+    delete:
+      summary: Delete a specific cash flow
+      description: Endpoint for deleting a specific cash flow by its ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: The unique ID of the specific cash flow
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Cash flow deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Cash flow deleted successfully
+        "400":
+          description: Invalid id
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Invalid cash flow id
+        "404":
+          description: Cash flow not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: No such cash flow found
+        "500":
+          description: Server error while deleting
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    example: Failed to delete the specific cash flow. Please try again later
+        "401":
+          $ref: '#/components/responses/UnauthorizedError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: Unauthorized action due to invalid, expired, or missing token
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                example: Unauthorized action. Please log-in or register
