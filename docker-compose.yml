@@ -44,6 +44,51 @@ services:
         condition: service_healthy
         restart: true
 
+  money-handler:
+    container_name: arthsaathi-money-handler
+    build:
+      context: .
+      dockerfile: ./apps/money-handler/Dockerfile
+    command: npm run dev
+    ports:
+      - 5001:5001
+    networks:
+      - expense-net
+    environment:
+      APP_PORT: 5001
+      MYSQL_DATABASE: moneydb
+      MYSQL_USER: moneyuser
+      MYSQL_PASSWORD: moneypass
+      MYSQL_HOSTNAME: money-db
+      MYSQL_PORT: 3306
+      JWT_SECRET: this_is_a_long_jwt_secret
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./apps/money-handler
+          target: /app/apps/money-handler
+        
+        - action: sync+restart
+          path: ./packages/helpers
+          target: /app/packages/helpers
+
+        - action: sync+restart
+          path: ./packages/models
+          target: /app/packages/models
+
+        - action: rebuild
+          path: ./apps/money-handler/package.json
+
+        - action: rebuild
+          path: ./packages/helpers/package.json
+
+        - action: rebuild
+          path: ./packages/models/package.json
+    depends_on:
+      money-db:
+        condition: service_healthy
+        restart: true
+
   auth-db:
     image: mysql:8.0
     container_name: auth-db
