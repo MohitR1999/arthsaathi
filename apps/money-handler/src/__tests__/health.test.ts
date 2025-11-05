@@ -4,12 +4,15 @@ import { makeApp } from '../app';
 import { MESSAGES } from '@arthsaathi/helpers/messages';
 import { STATUS_CODES } from '@arthsaathi/helpers/codes';
 import type { Express } from 'express';
+import { Sequelize } from 'sequelize';
 
 describe('Health check for the service', () => {
     let app: Express;
+    let sequelize;
 
     beforeAll(async () => {
-        app = await makeApp();
+        sequelize = new Sequelize();
+        app = await makeApp(sequelize);
     });
     
     it('Should return OK message when hitting the default route', async () => {
