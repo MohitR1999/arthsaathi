@@ -16,7 +16,9 @@
     "build": "tsc"
   },
   "exports": {
-    "./user": "./src/user/User.ts"
+    "./user": "./src/user/User.ts",
+    "./cashFlow": "./src/money/CashFlow.ts",
+    "./cashFlowCategory": "./src/money/CashFlowCategory.ts"
   },
   "devDependencies": {
     "@arthsaathi/typescript-config": "*",
