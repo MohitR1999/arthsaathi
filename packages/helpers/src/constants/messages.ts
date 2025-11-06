@@ -10,4 +10,5 @@ export const MESSAGES = {
     SERVER_ERROR: "Some error occured. Please try again later",
     USER_NOT_FOUND: "User not found",
     INVALID_CREDENTIALS: "Username or password is incorrect",
+    UNAUTHORIZED: "Unauthorized action"
 };
