@@ -4,10 +4,19 @@ import { MESSAGES } from '@arthsaathi/helpers/messages';
 import { STATUS_CODES } from '@arthsaathi/helpers/codes';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import { Sequelize } from 'sequelize';
+import { makeCashFlowModel } from '@arthsaathi/models/cashFlow';
+import { makeCashFlowCategoryModel } from '@arthsaathi/models/cashFlowCategory';
 
-export const makeApp = async (): Promise<Express> => {
+export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
     const app = express();
+    const CashFlow = makeCashFlowModel(sequelize);
+    const CashFlowCategory = makeCashFlowCategoryModel(sequelize);
     try {
+        await CashFlow.sync();
+        await CashFlowCategory.sync();
+        console.log('Table(s) created successfully for money handler');
+
         app.use(morgan('dev'));
         app.use(bodyParser.json());
         app.get('/', (req: Request, res: Response) => {
