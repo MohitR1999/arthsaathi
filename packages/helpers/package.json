@@ -10,9 +10,11 @@
   "license": "ISC",
   "author": "Mohit Ranjan",
   "exports": {
-    "./messages" : "./src/constants/messages.ts",
+    "./messages": "./src/constants/messages.ts",
     "./codes": "./src/constants/codes.ts",
-    "./error": "./src/error/customError.ts"
+    "./error": "./src/error/customError.ts",
+    "./categories": "./src/constants/categories.ts",
+    "./userIdGetter": "./src/middlewares/userGetter.ts"
   },
   "scripts": {
     "dev": "tsc --watch",
@@ -24,6 +26,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "zod": "^4.1.12"
   }
 }
