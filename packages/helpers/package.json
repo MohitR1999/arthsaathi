@@ -14,7 +14,8 @@
     "./codes": "./src/constants/codes.ts",
     "./error": "./src/error/customError.ts",
     "./categories": "./src/constants/categories.ts",
-    "./userIdGetter": "./src/middlewares/userGetter.ts"
+    "./userIdGetter": "./src/middlewares/userGetter.ts",
+    "./errorHandler": "./src/middlewares/errorHandlers.ts"
   },
   "scripts": {
     "dev": "tsc --watch",
