@@ -11,6 +11,7 @@ import { userIdGetter } from "@arthsaathi/helpers/userIdGetter";
 import { categoryErrorHandler } from "@arthsaathi/helpers/errorHandler";
 
 import { makeRouter as makeCategoryRouter } from "../routes/category";
+import { makeRouter as makeCashFlowRouter } from "../routes/cashFlow";
 
 export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
   const app = express();
@@ -18,6 +19,7 @@ export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
   const CashFlowCategory = makeCashFlowCategoryModel(sequelize);
 
   const category = makeCategoryRouter(sequelize);
+  const cashflow = makeCashFlowRouter(sequelize);
   try {
     await CashFlow.sync();
     await CashFlowCategory.sync();
@@ -27,6 +29,7 @@ export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
     app.use(bodyParser.json());
     app.use(userIdGetter);
     app.use("/api", category);
+    app.use("/api", cashflow);
     app.get("/", (req: Request, res: Response) => {
       res.status(STATUS_CODES.OK).json({
         message: "ArthSaathi Money Handler " + MESSAGES.HEALTHY_MESSAGE,

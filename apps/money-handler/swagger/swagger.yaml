@@ -239,6 +239,10 @@ paths:
                   type: string
                   nullable: true
                   example: Some description
+                date:
+                  type: string
+                  nullable: true
+                  example: 2025-11-04T18:30:00Z
               required: [amount, category, sub_category]
       responses:
         "201":
