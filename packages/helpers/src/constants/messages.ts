@@ -11,11 +11,16 @@ export const MESSAGES = {
   SERVER_ERROR: "Some error occured. Please try again later",
   USER_NOT_FOUND: "User not found",
   INVALID_CREDENTIALS: "Username or password is incorrect",
-  UNAUTHORIZED: "Unauthorized action",
+  UNAUTHORIZED: "Unauthorized action. Please log-in or register",
   SUB_CATEGORY_CREATED: "Sub category created successfully",
   INVALID_SUB_CATEGORY_NAME:
     "Invalid sub category name. Please enter a valid name",
   INVALID_SUB_CATEGORY_ID: "Invalid sub category ID",
   SUB_CATEGORY_DELETED: "Sub category deleted successfully",
   SUB_CATEGORY_MODIFIED: "Sub category modified successfully",
+  CASH_FLOW_CREATED: "Cash flow created successfully",
+  CASH_FLOW_MODIFIED: "Cash flow modified successfully",
+  CASH_FLOW_DELETED: "Cash flow deleted successfully",
+  CASH_FLOW_NOT_FOUND: "No such cash flow found",
+  INVALID_CASH_FLOW_ID: "Invalid cash flow id"
 };
