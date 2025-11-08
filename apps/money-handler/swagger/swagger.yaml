@@ -58,7 +58,7 @@ paths:
       summary: Get all or a specific sub category
       description: |
         - When called with only `type`, returns all sub categories for that type.
-        - When called with both `type` and `sub_category`, returns the specific sub category.
+        - When called with both `type` and `id`, returns the specific sub category.
       security:
         - bearerAuth: []
       parameters:
@@ -69,10 +69,10 @@ paths:
           schema:
             type: string
             enum: [INCOME, EXPENSE]
-        - name: sub_category
+        - name: id
           in: query
           required: false
-          description: The sub category name (optional, required only for fetching a specific sub category)
+          description: The sub category id (optional, required only for fetching a specific sub category)
           schema:
             type: string
       responses:
@@ -92,14 +92,9 @@ paths:
                         sub_category:
                           type: string
                           example: sub category 1
-                  - type: object
-                    properties:
-                      id:
-                        type: string
-                        example: id2
-                      sub_category:
-                        type: string
-                        example: sub category 2
+                        category:
+                          type: string
+                          example: EXPENSE
         "400":
           description: Invalid category or sub category name
           content:
@@ -127,17 +122,10 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: type
+        - name: id
           in: query
           required: true
-          description: The category type, which will be INCOME or EXPENSE
-          schema:
-            type: string
-            enum: [INCOME, EXPENSE]
-        - name: sub_category
-          in: query
-          required: true
-          description: The name of the sub category which has been saved earlier
+          description: The sub category unique id
           schema:
             type: string
       requestBody:
@@ -187,17 +175,10 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: type
+        - name: id
           in: query
           required: true
-          description: The category type, which will be INCOME or EXPENSE
-          schema:
-            type: string
-            enum: [INCOME, EXPENSE]
-        - name: sub_category
-          in: query
-          required: true
-          description: The name of the sub category which has been saved earlier
+          description: The sub category id which can be used to uniquely identify it
           schema:
             type: string
       responses:
@@ -211,14 +192,14 @@ paths:
                   message:
                     example: Sub category deleted successfully
         "400":
-          description: Invalid category or sub category name
+          description: Invalid sub category ID
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   message:
-                    example: Invalid category name. Please select a valid category
+                    example: Invalid sub category ID
         "404":
           description: Sub category not found
           content:
