@@ -11,7 +11,7 @@ import { userIdGetter } from "@arthsaathi/helpers/userIdGetter";
 import { categoryErrorHandler } from "@arthsaathi/helpers/errorHandler";
 
 import { makeRouter as makeCategoryRouter } from "../routes/category";
-import { makeRouter as makeCashFlowRouter } from '../routes/cashFlow';
+import { makeRouter as makeCashFlowRouter } from "../routes/cashFlow";
 
 export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
   const app = express();

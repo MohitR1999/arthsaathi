@@ -27,13 +27,11 @@ const makeHandler = (sequelize: Sequelize) => {
             .json({ message: MESSAGES.CASH_FLOW_NOT_FOUND });
           return;
         }
-        await CashFlow.destroy(
-          {
-            where: {
-              id,
-            },
+        await CashFlow.destroy({
+          where: {
+            id,
           },
-        );
+        });
         response
           .status(STATUS_CODES.OK)
           .json({ message: MESSAGES.CASH_FLOW_DELETED });

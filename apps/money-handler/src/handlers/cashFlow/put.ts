@@ -45,7 +45,9 @@ const makeHandler = (sequelize: Sequelize) => {
             },
           },
         );
-        response.status(STATUS_CODES.OK).json({ message: MESSAGES.CASH_FLOW_MODIFIED })
+        response
+          .status(STATUS_CODES.OK)
+          .json({ message: MESSAGES.CASH_FLOW_MODIFIED });
       } else {
         response
           .status(STATUS_CODES.UNAUTHORIZED)

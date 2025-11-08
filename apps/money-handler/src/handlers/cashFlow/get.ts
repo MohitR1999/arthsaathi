@@ -18,8 +18,7 @@ const makeHandler = (sequelize: Sequelize) => {
             },
           });
           response.status(STATUS_CODES.OK).json(result);
-        }
-        else if (category) {
+        } else if (category) {
           const result = await CashFlow.findAll({
             where: {
               category,
@@ -43,7 +42,6 @@ const makeHandler = (sequelize: Sequelize) => {
           });
           response.status(STATUS_CODES.OK).json(result);
         }
-
       } else {
         response
           .status(STATUS_CODES.UNAUTHORIZED)

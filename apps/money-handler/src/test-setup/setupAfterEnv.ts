@@ -47,7 +47,7 @@ const MockModelCashFlow = {
     }
   }),
   create: jest.fn((element) => {
-    cashFlowDb.push({ ...element, id: 'test-expense'});
+    cashFlowDb.push({ ...element, id: "test-expense" });
   }),
   findOne: jest.fn(),
   findAll: jest.fn((element: any) => {
@@ -64,15 +64,13 @@ const MockModelCashFlow = {
   update: jest.fn((obj: any, element: any) => {
     const id = element.where.id;
     const index = cashFlowDb.findIndex((e) => e.id === id);
-    cashFlowDb[index] = { ...cashFlowDb[index], ...obj};
+    cashFlowDb[index] = { ...cashFlowDb[index], ...obj };
   }),
 
   getDb: jest.fn(() => {
     console.log(cashFlowDb);
   }),
 };
-
-
 
 jest.mock("sequelize", () => {
   const mockSequelize = {

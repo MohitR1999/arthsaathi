@@ -21,9 +21,9 @@ describe("Cashflow endpoints test", () => {
   const cashFlowCategoryToBeCreated = {
     amount: 142.86,
     category: CATEGORY.EXPENSE,
-    sub_category: 'Food - Eating out',
-    description: 'Eating out at Haldiram\'s',
-    date: '2025-11-08T09:26:23.463Z',
+    sub_category: "Food - Eating out",
+    description: "Eating out at Haldiram's",
+    date: "2025-11-08T09:26:23.463Z",
   };
 
   beforeAll(async () => {
@@ -44,25 +44,25 @@ describe("Cashflow endpoints test", () => {
   it("Should retrieve all cash flows successfully", async () => {
     const result = await supertest(app)
       .get(`/api/cashflow`)
-      .set({ authorization: `Bearer ${token}` })
-    expect(result.status).toBe(STATUS_CODES.OK)
-    expect(result.body.length).toBeGreaterThan(0)
-  })
+      .set({ authorization: `Bearer ${token}` });
+    expect(result.status).toBe(STATUS_CODES.OK);
+    expect(result.body.length).toBeGreaterThan(0);
+  });
 
   it("Should modify a cash flow by providing its ID", async () => {
     const result = await supertest(app)
       .put(`/api/cashflow?id=test-expense`)
       .set({ authorization: `Bearer ${token}` })
-      .send({ ...cashFlowCategoryToBeCreated, amount: 550.63});
+      .send({ ...cashFlowCategoryToBeCreated, amount: 550.63 });
     expect(result.status).toBe(STATUS_CODES.OK);
     expect(result.body.message).toEqual(MESSAGES.CASH_FLOW_MODIFIED);
 
     const modifiedResult = await supertest(app)
       .get(`/api/cashflow?id=test-expense`)
-      .set({ authorization: `Bearer ${token}` })
+      .set({ authorization: `Bearer ${token}` });
     expect(modifiedResult.status).toBe(STATUS_CODES.OK);
     expect(modifiedResult.body[0].amount).toBeCloseTo(550.63);
-  })
+  });
 
   it("Should delete a cash flow by providing its ID", async () => {
     const result = await supertest(app)
@@ -71,5 +71,5 @@ describe("Cashflow endpoints test", () => {
       .send();
     expect(result.status).toBe(STATUS_CODES.OK);
     expect(result.body.message).toEqual(MESSAGES.CASH_FLOW_DELETED);
-  })
+  });
 });

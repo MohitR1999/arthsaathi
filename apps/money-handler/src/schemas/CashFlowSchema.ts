@@ -8,7 +8,7 @@ const CashFlowSchema = z.object({
   category: z.enum(categories),
   sub_category: z.string().regex(/^[a-zA-Z0-9_.-\s]+$/),
   description: z.string(),
-  date: z.coerce.date()
+  date: z.coerce.date(),
 });
 
 export { CashFlowSchema };
