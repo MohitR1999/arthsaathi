@@ -384,6 +384,10 @@ paths:
                   type: string
                   nullable: true
                   example: Updated description
+                date:
+                  type: string
+                  nullable: true
+                  example: 2025-11-04T18:30:00Z
       responses:
         "200":
           description: Cash flow modified successfully
