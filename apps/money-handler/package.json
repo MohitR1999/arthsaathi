@@ -21,7 +21,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint"
+    "lint": "npx prettier . --check",
+    "lint-fix": "npx prettier . --write"
   },
   "dependencies": {
     "@arthsaathi/helpers": "*",
