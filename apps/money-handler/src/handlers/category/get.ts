@@ -7,13 +7,13 @@ const makeHandler = (sequelize: Sequelize) => {
   const CashFlowCategory = sequelize.models.CashFlowCategory;
   if (CashFlowCategory) {
     const get = async (request: Request, response: Response) => {
-      const { type, sub_category } = request.query;
+      const { type, id } = request.query;
       if (request.headers.userId) {
-        if (type && sub_category) {
+        if (type && id) {
           const result = await CashFlowCategory.findAll({
             where: {
               category: type,
-              sub_category,
+              id,
               user_id: request.headers.userId,
             },
             attributes: ["id", "category", "sub_category"],

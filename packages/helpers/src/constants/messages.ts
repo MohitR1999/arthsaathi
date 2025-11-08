@@ -15,4 +15,7 @@ export const MESSAGES = {
   SUB_CATEGORY_CREATED: "Sub category created successfully",
   INVALID_SUB_CATEGORY_NAME:
     "Invalid sub category name. Please enter a valid name",
+  INVALID_SUB_CATEGORY_ID: "Invalid sub category ID",
+  SUB_CATEGORY_DELETED: "Sub category deleted successfully",
+  SUB_CATEGORY_MODIFIED: "Sub category modified successfully",
 };
