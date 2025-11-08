@@ -2,8 +2,7 @@ name: lint-pr
 
 run-name: Validate PR / Lint checks
 
-on:
-  pull_request
+on: pull_request
 
 jobs:
   lint:
@@ -12,7 +11,7 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
       - run: npm ci --frozen-lockfile
       - run: npm i -g turbo@2.5.8
       - run: turbo run lint

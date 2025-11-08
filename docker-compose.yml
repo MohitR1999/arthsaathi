@@ -22,7 +22,7 @@ services:
         - action: sync+restart
           path: ./apps/auth
           target: /app/apps/auth
-        
+
         - action: sync+restart
           path: ./packages/helpers
           target: /app/packages/helpers
@@ -67,7 +67,7 @@ services:
         - action: sync+restart
           path: ./apps/money-handler
           target: /app/apps/money-handler
-        
+
         - action: sync+restart
           path: ./packages/helpers
           target: /app/packages/helpers
@@ -99,7 +99,7 @@ services:
       MYSQL_USER: authuser
       MYSQL_PASSWORD: authpass
     ports:
-      - "3307:3306"   # external port to avoid clash with other MySQLs
+      - "3307:3306" # external port to avoid clash with other MySQLs
     volumes:
       - auth-db-data:/var/lib/mysql
     networks:
@@ -122,7 +122,7 @@ services:
       MYSQL_USER: moneyuser
       MYSQL_PASSWORD: moneypass
     ports:
-      - "3308:3306"   # external port to avoid clash with other MySQLs
+      - "3308:3306" # external port to avoid clash with other MySQLs
     volumes:
       - money-db-data:/var/lib/mysql
     networks:
@@ -132,10 +132,9 @@ services:
       timeout: 10s
       retries: 10
 
-
 volumes:
- auth-db-data:
- money-db-data:
+  auth-db-data:
+  money-db-data:
 
 networks:
   expense-net:

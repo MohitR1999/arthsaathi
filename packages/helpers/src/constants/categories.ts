@@ -1,4 +1,4 @@
 export const CATEGORY = {
-    INCOME: "INCOME",
-    EXPENSE: "EXPENSE"
+  INCOME: "INCOME",
+  EXPENSE: "EXPENSE",
 };
