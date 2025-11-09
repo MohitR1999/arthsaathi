@@ -5,8 +5,10 @@ services:
       context: .
       dockerfile: ./apps/auth/Dockerfile
     command: npm run dev
-    ports:
-      - 5000:5000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`localhost`) && PathPrefix(`/api/auth`)"
+      - "traefik.http.services.auth.loadbalancer.server.port=5000"
     networks:
       - expense-net
     environment:
@@ -49,9 +51,11 @@ services:
     build:
       context: .
       dockerfile: ./apps/money-handler/Dockerfile
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.money-handler.rule=Host(`localhost`) && PathRegexp(`^/api/(cashflow|category)/*`)"
+      - "traefik.http.services.money-handler.loadbalancer.server.port=5001"
     command: npm run dev
-    ports:
-      - 5001:5001
     networks:
       - expense-net
     environment:
@@ -131,6 +135,26 @@ services:
       test: mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       timeout: 10s
       retries: 10
+  
+  # Reverse proxy - Traefik
+  traefik:
+    image: traefik:v3.5
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=expense-net"
+      - "--entryPoints.web.address=:80"
+      - "--log.filePath=/log/log-file.log"
+      - "--log.level=INFO"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./log:/log
+    networks:
+      - expense-net
 
 volumes:
   auth-db-data:
