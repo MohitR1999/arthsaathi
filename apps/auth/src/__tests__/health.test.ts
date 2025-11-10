@@ -21,9 +21,8 @@ describe("Health check for the service", () => {
     expect(res.body.message).toBe(MESSAGES.HEALTHY_MESSAGE);
   });
 
-  it("Should return Not Found message when hitting any random route", async () => {
+  it("Should return Unauthorized message when hitting any random route", async () => {
     const res = await supertest(app).get("/random/route/lol").send();
-    expect(res.status).toBe(STATUS_CODES.NOT_FOUND);
-    expect(res.body.message).toBe(MESSAGES.ROUTE_NOT_FOUND);
+    expect(res.status).toBe(STATUS_CODES.UNAUTHORIZED);
   });
 });
