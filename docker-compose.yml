@@ -1,12 +1,9 @@
 services:
   auth:
-    container_name: arthsaathi-auth
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
     command: npm run dev
-    ports:
-      - 5000:5000
     networks:
       - expense-net
     environment:
@@ -45,13 +42,10 @@ services:
         restart: true
 
   money-handler:
-    container_name: arthsaathi-money-handler
     build:
       context: .
       dockerfile: ./apps/money-handler/Dockerfile
     command: npm run dev
-    ports:
-      - 5001:5001
     networks:
       - expense-net
     environment:
@@ -91,7 +85,6 @@ services:
 
   auth-db:
     image: mysql:8.0
-    container_name: auth-db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
@@ -114,7 +107,6 @@ services:
   # =====================
   money-db:
     image: mysql:8.0
-    container_name: money-db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
@@ -131,6 +123,24 @@ services:
       test: mysqladmin ping -h localhost -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       timeout: 10s
       retries: 10
+  
+  # Reverse proxy - HAProxy
+  api-gateway:
+    image: nginx:1.27.3-bookworm
+    depends_on:
+      - auth
+      - money-handler
+    ports:
+      - "80:80"
+    networks:
+      - expense-net
+    develop:
+      watch:
+        - action : sync+exec
+          path : ./nginx.conf
+          target : /etc/nginx/nginx.conf
+          exec:
+            command : nginx -s reload
 
 volumes:
   auth-db-data:
