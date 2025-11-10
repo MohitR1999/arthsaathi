@@ -11,13 +11,15 @@ const makeRouter = (sequelize: Sequelize) => {
     register.get("/verify", async (req: Request, res: Response) => {
       const doesUserExist = await User.findOne({
         where: {
-          id: req.headers.userId
-        }
-      })
+          id: req.headers.userId,
+        },
+      });
       if (doesUserExist) {
-        res.status(STATUS_CODES.OK).send({ message: 'OK' });
+        res.status(STATUS_CODES.OK).send({ message: "OK" });
       } else {
-        res.status(STATUS_CODES.UNAUTHORIZED).send({ message: MESSAGES.UNAUTHORIZED });
+        res
+          .status(STATUS_CODES.UNAUTHORIZED)
+          .send({ message: MESSAGES.UNAUTHORIZED });
       }
     });
   }
