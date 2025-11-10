@@ -1,14 +1,9 @@
 services:
   auth:
-    container_name: arthsaathi-auth
     build:
       context: .
       dockerfile: ./apps/auth/Dockerfile
     command: npm run dev
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.auth.rule=Host(`localhost`) && PathPrefix(`/api/auth`)"
-      - "traefik.http.services.auth.loadbalancer.server.port=5000"
     networks:
       - expense-net
     environment:
@@ -47,14 +42,9 @@ services:
         restart: true
 
   money-handler:
-    container_name: arthsaathi-money-handler
     build:
       context: .
       dockerfile: ./apps/money-handler/Dockerfile
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.money-handler.rule=Host(`localhost`) && PathRegexp(`^/api/(cashflow|category)/*`)"
-      - "traefik.http.services.money-handler.loadbalancer.server.port=5001"
     command: npm run dev
     networks:
       - expense-net
@@ -95,7 +85,6 @@ services:
 
   auth-db:
     image: mysql:8.0
-    container_name: auth-db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
@@ -118,7 +107,6 @@ services:
   # =====================
   money-db:
     image: mysql:8.0
-    container_name: money-db
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
@@ -136,25 +124,23 @@ services:
       timeout: 10s
       retries: 10
   
-  # Reverse proxy - Traefik
-  traefik:
-    image: traefik:v3.5
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=expense-net"
-      - "--entryPoints.web.address=:80"
-      - "--log.filePath=/log/log-file.log"
-      - "--log.level=INFO"
+  # Reverse proxy - HAProxy
+  api-gateway:
+    image: nginx:1.27.3-bookworm
+    depends_on:
+      - auth
+      - money-handler
     ports:
       - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./log:/log
     networks:
       - expense-net
+    develop:
+      watch:
+        - action : sync+exec
+          path : ./nginx.conf
+          target : /etc/nginx/nginx.conf
+          exec:
+            command : nginx -s reload
 
 volumes:
   auth-db-data:
