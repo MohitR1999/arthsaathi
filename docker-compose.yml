@@ -82,6 +82,48 @@ services:
       money-db:
         condition: service_healthy
         restart: true
+  
+  reporter:
+    build:
+      context: .
+      dockerfile: ./apps/reporter/Dockerfile
+    command: npm run dev
+    networks:
+      - expense-net
+    environment:
+      APP_PORT: 5002
+      MYSQL_DATABASE: moneydb
+      MYSQL_USER: moneyuser
+      MYSQL_PASSWORD: moneypass
+      MYSQL_HOSTNAME: money-db
+      MYSQL_PORT: 3306
+      JWT_SECRET: this_is_a_long_jwt_secret
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./apps/reporter
+          target: /app/apps/reporter
+
+        - action: sync+restart
+          path: ./packages/helpers
+          target: /app/packages/helpers
+
+        - action: sync+restart
+          path: ./packages/models
+          target: /app/packages/models
+
+        - action: rebuild
+          path: ./apps/reporter/package.json
+
+        - action: rebuild
+          path: ./packages/helpers/package.json
+
+        - action: rebuild
+          path: ./packages/models/package.json
+    depends_on:
+      money-db:
+        condition: service_healthy
+        restart: true
 
   auth-db:
     image: mysql:8.0
