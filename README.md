@@ -4,19 +4,15 @@ Welcome to ArthSaathi, your one and only solution for managing your spending hab
 
 ### Authentication
 
-All the responsibilities related to authentication reside in `as-auth`
+All the responsibilities related to authentication reside in `apps/auth`
 
 ### Money Handling
 
-All the expense related stuff goes inside `as-money-handler`
+All the expense related stuff goes inside `apps/money-handler`
 
 ### Reporting
 
-All the reporting work is done by `as-reporter`
-
-### UI
-
-The web client is present in `as-client`
+All the reporting work is done by `apps/reporter`
 
 ## How to get started?
 
