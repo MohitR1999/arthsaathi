@@ -15,7 +15,7 @@
   "license": "ISC",
   "author": "Mohit Ranjan",
   "type": "commonjs",
-   "scripts": {
+  "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
