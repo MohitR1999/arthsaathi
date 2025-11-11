@@ -1,0 +1,2 @@
+process.env.JWT_SECRET =
+  "this_is_a_long_ass_test_jwt_secret_that_should_not_be_used_in_production";
