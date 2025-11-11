@@ -10,7 +10,6 @@ const makeRouter = (sequelize: Sequelize) => {
     report.get("/reports", async (request: Request, response: Response) => {
       if (request.headers.userId) {
         const { from, to } = request.query;
-        console.log({ from, to });
         let result = {};
         if (!from && !to) {
           result = await CashFlow.findAll({
