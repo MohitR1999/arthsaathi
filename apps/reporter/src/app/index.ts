@@ -7,6 +7,7 @@ import { STATUS_CODES } from "@arthsaathi/helpers/codes";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import { makeRouter as makeReportsRouter } from "../routes/report";
+import { userIdGetter } from "@arthsaathi/helpers/userIdGetter";
 
 export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
   const app = express();
@@ -16,6 +17,7 @@ export const makeApp = async (sequelize: Sequelize): Promise<Express> => {
     await CashFlow.sync();
     app.use(morgan("dev"));
     app.use(bodyParser.json());
+    app.use(userIdGetter);
     app.use("/api", report);
     app.get("/", (req: Request, res: Response) => {
       res.status(STATUS_CODES.OK).json({
