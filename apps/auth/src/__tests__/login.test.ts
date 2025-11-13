@@ -95,4 +95,10 @@ describe("Login endpoint test - Unsuccessful scenarios", () => {
     expect(loginRes.status).toEqual(STATUS_CODES.BAD_REQUEST);
     expect(loginRes.body.message).toEqual(MESSAGES.INVALID_CREDENTIALS);
   });
+
+  it("should throw bad request error in case no request body is supplied", async () => {
+    const res = await supertest(app).post("/api/auth/login").send();
+    expect(res.status).toEqual(STATUS_CODES.BAD_REQUEST);
+    expect(res.body.message).toEqual(MESSAGES.INVALID_DATA);
+  });
 });

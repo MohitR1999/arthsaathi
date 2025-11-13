@@ -14,8 +14,14 @@ const makeRouter = (sequelize: Sequelize) => {
   if (User) {
     // if we have the model, then only we should do anything
     login.post("/login", async (req: Request, res: Response) => {
-      const { email, password } = req.body;
       try {
+        if (!req.body) {
+          res
+            .status(STATUS_CODES.BAD_REQUEST)
+            .json({ message: MESSAGES.INVALID_DATA });
+          return;
+        }
+        const { email, password } = req.body;
         const user = LoginSchema.parse({ email, password });
         const existingUser = await User.findOne({
           where: {

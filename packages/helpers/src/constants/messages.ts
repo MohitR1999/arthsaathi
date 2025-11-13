@@ -11,6 +11,7 @@ export const MESSAGES = {
   SERVER_ERROR: "Some error occured. Please try again later",
   USER_NOT_FOUND: "User not found",
   INVALID_CREDENTIALS: "Username or password is incorrect",
+  INVALID_DATA: "Invalid data passed",
   UNAUTHORIZED: "Unauthorized action. Please log-in or register",
   SUB_CATEGORY_CREATED: "Sub category created successfully",
   INVALID_SUB_CATEGORY_NAME:
