@@ -135,4 +135,10 @@ describe("Register endpoint test - Unsuccessful scenarios", () => {
     expect(res.status).toEqual(STATUS_CODES.SERVER_ERROR);
     expect(res.body.message).toEqual(MESSAGES.SERVER_ERROR);
   });
+
+  it("should throw bad request error in case no request body is supplied", async () => {
+    const res = await supertest(app).post("/api/auth/register").send();
+    expect(res.status).toEqual(STATUS_CODES.BAD_REQUEST);
+    expect(res.body.message).toEqual(MESSAGES.INVALID_DATA);
+  });
 });

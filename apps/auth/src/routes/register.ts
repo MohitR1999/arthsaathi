@@ -12,8 +12,14 @@ const makeRouter = (sequelize: Sequelize) => {
   if (User) {
     // if we have the model, then only we should do anything
     register.post("/register", async (req: Request, res: Response) => {
-      const { firstName, lastName, email, password } = req.body;
       try {
+        if (!req.body) {
+          res
+            .status(STATUS_CODES.BAD_REQUEST)
+            .json({ message: MESSAGES.INVALID_DATA });
+          return;
+        }
+        const { firstName, lastName, email, password } = req.body;
         const user = UserSchema.parse({ firstName, lastName, email, password });
         const existingUserCount = await User.count({
           where: {
