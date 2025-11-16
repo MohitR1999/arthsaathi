@@ -14,8 +14,7 @@
   ],
   "license": "ISC",
   "author": "Mohit Ranjan",
-  "type": "commonjs",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
