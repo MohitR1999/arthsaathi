@@ -11,7 +11,7 @@ const RootNavigator = () => {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!!signedIn}>
-        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(signed-in)" />
       </Stack.Protected>
 
       <Stack.Protected guard={!signedIn}>
