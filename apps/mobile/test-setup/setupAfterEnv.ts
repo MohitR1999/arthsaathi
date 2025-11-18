@@ -1,0 +1,1 @@
+import './mocks/msw.polyfills'
