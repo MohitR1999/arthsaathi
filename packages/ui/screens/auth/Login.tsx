@@ -27,7 +27,7 @@ const Login = () => {
             gap: 12,
           }}
         >
-          <Text variant="displayMedium">Log in</Text>
+          <Text variant="titleLarge">Log in</Text>
           <TextInput
             label="Email"
             mode="outlined"
