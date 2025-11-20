@@ -21,6 +21,7 @@
   "devDependencies": {
     "@arthsaathi/typescript-config": "*",
     "jest": "^30.2.0",
+    "msw": "^2.12.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {

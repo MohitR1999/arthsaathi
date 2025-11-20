@@ -25,10 +25,12 @@
   "devDependencies": {
     "@arthsaathi/typescript-config": "*",
     "jest": "^29.7.0",
+    "msw": "^2.12.2",
     "typescript": "^5.9.3"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.10",
+    "axios": "^1.13.2",
     "expo": "^51.0.39",
     "expo-constants": "^16.0.2",
     "expo-dev-client": "^4.0.29",
