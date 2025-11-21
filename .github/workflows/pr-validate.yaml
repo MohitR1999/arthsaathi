@@ -14,4 +14,6 @@ jobs:
           node-version: "22"
       - run: npm ci --frozen-lockfile
       - run: npm i -g turbo@2.5.8
+      # Applying the following patch to node_modules due to this: https://github.com/expo/expo/issues/40184
+      - run: sed -i 's/^/\/\/ /' node_modules/expo-router/build/testing-library/expect.js
       - run: turbo run test
