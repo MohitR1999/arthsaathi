@@ -218,3 +218,49 @@ paths:
                   summary: Internal server error
                   value:
                     message: "Some error occured. Please try again later"
+  /api/auth/me:
+    get:
+      description: "User profile details"
+      parameters:
+        - in: header
+          name: "Authorization"
+          description: "The JWT authorization token"
+          schema:
+            type: string
+
+      responses:
+        "200":
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+              examples:
+                sample_object:
+                  summary: Sample response
+                  value:
+                    firstName: Mohit
+                    lastName: Ranjan
+                    email: test@foo.com
+        "401":
+          description: Unauthorized. JWT token is either invalid or expired
+
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                server_error:
+                  summary: Internal server error
+                  value:
+                    message: "Some error occured. Please try again later"

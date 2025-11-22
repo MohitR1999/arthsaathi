@@ -1,6 +1,16 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 jest.mock("sequelize", () => {
-  const db: any = [];
+  const db: any = [
+    {
+      firstName: "Mohit",
+      lastName: "Ranjan",
+      email: "test@foo.com",
+      id: "test-id",
+      getDataValue: function (this: any, key: string) {
+        return this[key];
+      },
+    },
+  ];
 
   const mockSequelize = {
     authenticate: jest.fn(),
@@ -21,9 +31,16 @@ jest.mock("sequelize", () => {
           });
         }),
         findOne: jest.fn((query) => {
-          const user = db.find((e: any) => {
-            return e.email === query.where.email;
-          });
+          let user;
+          if (query.where.email) {
+            user = db.find((e: any) => {
+              return e.email === query.where.email;
+            });
+          } else if (query.where.id) {
+            user = db.find((e: any) => {
+              return e.id === query.where.id;
+            });
+          }
           return user;
         }),
       },
