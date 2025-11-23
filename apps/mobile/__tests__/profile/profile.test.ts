@@ -6,8 +6,6 @@ import SignedInLayout from "../../app/(signed-in)/_layout";
 import Profile from "../../app/(signed-in)/(tabs)/profile";
 import Index from "../../app/index";
 import RootLayout from "../../app/_layout";
-import Login from "../../app/login";
-import Register from "../../app/register";
 import { TestQueryWrapper } from "../../test-setup/wrappers/TestQueryWrapper";
 
 describe("Profile tests", () => {

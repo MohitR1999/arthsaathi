@@ -16,7 +16,8 @@
     "./categories": "./src/constants/categories.ts",
     "./userIdGetter": "./src/middlewares/userGetter.ts",
     "./errorHandler": "./src/middlewares/errorHandlers.ts",
-    "./hooks": "./src/hooks/index.ts"
+    "./hooks": "./src/hooks/index.ts",
+    "./types": "./src/types/index.ts"
   },
   "scripts": {
     "dev": "tsc --watch",
