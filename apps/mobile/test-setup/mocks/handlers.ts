@@ -1,2 +1,3 @@
-import { loginHandler } from './auth/login';
-export const handlers = [loginHandler]
+import { loginHandler } from "./auth/login";
+import { profileHandler } from "./profile/profile";
+export const handlers = [loginHandler, profileHandler];
