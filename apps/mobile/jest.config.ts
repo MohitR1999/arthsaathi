@@ -23,7 +23,6 @@ const config: Config = {
   verbose: true,
   setupFiles: ["./test-setup/setup.ts"],
   setupFilesAfterEnv: ["./test-setup/setupAfterEnv.ts"],
-  testEnvironment: "node",
   preset: "jest-expo",
   transformIgnorePatterns: [
     `/node_modules/(?!(${esModules})/)`,
