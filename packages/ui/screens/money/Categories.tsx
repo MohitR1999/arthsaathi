@@ -36,9 +36,19 @@ const ListItem = ({ sub_category, category }: SubCategory) => {
         title={sub_category}
         left={(props) => {
           if (category === "EXPENSE") {
-            return <List.Icon {...props} icon="arrow-top-right" />;
+            return (
+              <List.Icon
+                {...props}
+                icon="arrow-top-right-thin-circle-outline"
+              />
+            );
           } else {
-            return <List.Icon {...props} icon="arrow-bottom-left" />;
+            return (
+              <List.Icon
+                {...props}
+                icon="arrow-bottom-left-thin-circle-outline"
+              />
+            );
           }
         }}
       />
@@ -80,35 +90,39 @@ const Categories = ({
               padding: 16,
             }}
           >
-            {loading ? (
-              <>
-                <ActivityIndicator />
-              </>
-            ) : (
-              <>
-                <SegmentedButtons
-                  value={categoryValue}
-                  onValueChange={categoryValueChangeHandler}
-                  buttons={[
-                    {
-                      value: "EXPENSE",
-                      label: "Expense",
-                    },
+            <>
+              <SegmentedButtons
+                value={categoryValue}
+                onValueChange={categoryValueChangeHandler}
+                buttons={[
+                  {
+                    value: "EXPENSE",
+                    label: "Expense",
+                  },
 
-                    {
-                      value: "INCOME",
-                      label: "Income",
-                    },
-                  ]}
+                  {
+                    value: "INCOME",
+                    label: "Income",
+                  },
+                ]}
+              />
+              {loading ? (
+                <ActivityIndicator
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 />
+              ) : (
                 <FlatList
                   data={items}
                   renderItem={({ item }) => (
                     <ListItem {...item} key={item.id} />
                   )}
                 />
-              </>
-            )}
+              )}
+            </>
           </View>
           <FAB
             icon="plus"
