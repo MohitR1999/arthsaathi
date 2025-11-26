@@ -11,6 +11,7 @@ import {
 } from "react-native-paper";
 import { View, KeyboardAvoidingView, Platform, FlatList } from "react-native";
 import { Category, SubCategory } from "@arthsaathi/helpers/types";
+import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 type CategoriesProps = {
   backHandler: () => void;
@@ -23,36 +24,43 @@ type CategoriesProps = {
 const ListItem = ({ sub_category, category }: SubCategory) => {
   const theme = useTheme();
   return (
-    <Surface
-      elevation={0}
-      style={{
-        backgroundColor: theme.colors.backdrop,
-        borderRadius: 100,
-        marginTop: 8,
+    <Swipeable
+      containerStyle={{
         flex: 1,
+        flexDirection: "column",
       }}
     >
-      <List.Item
-        title={sub_category}
-        left={(props) => {
-          if (category === "EXPENSE") {
-            return (
-              <List.Icon
-                {...props}
-                icon="arrow-top-right-thin-circle-outline"
-              />
-            );
-          } else {
-            return (
-              <List.Icon
-                {...props}
-                icon="arrow-bottom-left-thin-circle-outline"
-              />
-            );
-          }
+      <Surface
+        elevation={0}
+        style={{
+          backgroundColor: theme.colors.backdrop,
+          borderRadius: 100,
+          marginTop: 8,
+          flex: 1,
         }}
-      />
-    </Surface>
+      >
+        <List.Item
+          title={sub_category}
+          left={(props) => {
+            if (category === "EXPENSE") {
+              return (
+                <List.Icon
+                  {...props}
+                  icon="arrow-top-right-thin-circle-outline"
+                />
+              );
+            } else {
+              return (
+                <List.Icon
+                  {...props}
+                  icon="arrow-bottom-left-thin-circle-outline"
+                />
+              );
+            }
+          }}
+        />
+      </Surface>
+    </Swipeable>
   );
 };
 
@@ -116,6 +124,9 @@ const Categories = ({
                 />
               ) : (
                 <FlatList
+                  style={{
+                    flex: 1,
+                  }}
                   data={items}
                   renderItem={({ item }) => (
                     <ListItem {...item} key={item.id} />
