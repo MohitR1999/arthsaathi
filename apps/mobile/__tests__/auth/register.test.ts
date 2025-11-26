@@ -16,7 +16,7 @@ describe("Landing screen", () => {
       register: Register,
     });
 
-    const { findByText, findByRole, debug, findByTestId } = renderRouter(routerForRegister, {
+    const { findByText, findByRole, findByTestId } = renderRouter(routerForRegister, {
         initialUrl: "/",
       });
       
