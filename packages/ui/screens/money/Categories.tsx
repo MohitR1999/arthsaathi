@@ -11,7 +11,6 @@ import {
 } from "react-native-paper";
 import { View, KeyboardAvoidingView, Platform, FlatList } from "react-native";
 import { Category, SubCategory } from "@arthsaathi/helpers/types";
-import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 type CategoriesProps = {
   backHandler: () => void;
@@ -24,12 +23,6 @@ type CategoriesProps = {
 const ListItem = ({ sub_category, category }: SubCategory) => {
   const theme = useTheme();
   return (
-    <Swipeable
-      containerStyle={{
-        flex: 1,
-        flexDirection: "column",
-      }}
-    >
       <Surface
         elevation={0}
         style={{
@@ -60,7 +53,6 @@ const ListItem = ({ sub_category, category }: SubCategory) => {
           }}
         />
       </Surface>
-    </Swipeable>
   );
 };
 

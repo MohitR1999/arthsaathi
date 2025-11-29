@@ -28,7 +28,7 @@ describe("Money / Sub category tests", () => {
       "(signed-in)/categories": Categories,
     });
 
-    const { findByText, findByRole, findByTestId } = renderRouter(
+    const { findByText } = renderRouter(
       routerForRegister,
       {
         initialUrl: "/(signed-in)/(tabs)/profile",
