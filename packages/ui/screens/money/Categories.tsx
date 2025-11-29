@@ -23,26 +23,36 @@ type CategoriesProps = {
 const ListItem = ({ sub_category, category }: SubCategory) => {
   const theme = useTheme();
   return (
-    <Surface
-      elevation={0}
-      style={{
-        backgroundColor: theme.colors.backdrop,
-        borderRadius: 100,
-        marginTop: 8,
-        flex: 1,
-      }}
-    >
-      <List.Item
-        title={sub_category}
-        left={(props) => {
-          if (category === "EXPENSE") {
-            return <List.Icon {...props} icon="arrow-top-right" />;
-          } else {
-            return <List.Icon {...props} icon="arrow-bottom-left" />;
-          }
+      <Surface
+        elevation={0}
+        style={{
+          backgroundColor: theme.colors.backdrop,
+          borderRadius: 100,
+          marginTop: 8,
+          flex: 1,
         }}
-      />
-    </Surface>
+      >
+        <List.Item
+          title={sub_category}
+          left={(props) => {
+            if (category === "EXPENSE") {
+              return (
+                <List.Icon
+                  {...props}
+                  icon="arrow-top-right-thin-circle-outline"
+                />
+              );
+            } else {
+              return (
+                <List.Icon
+                  {...props}
+                  icon="arrow-bottom-left-thin-circle-outline"
+                />
+              );
+            }
+          }}
+        />
+      </Surface>
   );
 };
 
@@ -80,35 +90,42 @@ const Categories = ({
               padding: 16,
             }}
           >
-            {loading ? (
-              <>
-                <ActivityIndicator />
-              </>
-            ) : (
-              <>
-                <SegmentedButtons
-                  value={categoryValue}
-                  onValueChange={categoryValueChangeHandler}
-                  buttons={[
-                    {
-                      value: "EXPENSE",
-                      label: "Expense",
-                    },
+            <>
+              <SegmentedButtons
+                value={categoryValue}
+                onValueChange={categoryValueChangeHandler}
+                buttons={[
+                  {
+                    value: "EXPENSE",
+                    label: "Expense",
+                  },
 
-                    {
-                      value: "INCOME",
-                      label: "Income",
-                    },
-                  ]}
+                  {
+                    value: "INCOME",
+                    label: "Income",
+                  },
+                ]}
+              />
+              {loading ? (
+                <ActivityIndicator
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 />
+              ) : (
                 <FlatList
+                  style={{
+                    flex: 1,
+                  }}
                   data={items}
                   renderItem={({ item }) => (
                     <ListItem {...item} key={item.id} />
                   )}
                 />
-              </>
-            )}
+              )}
+            </>
           </View>
           <FAB
             icon="plus"
