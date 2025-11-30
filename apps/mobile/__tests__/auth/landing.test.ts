@@ -7,15 +7,18 @@ import Register from "../../app/register";
 
 describe("Landing screen", () => {
   const user = userEvent.setup();
-
-  it("Should navigate to login page when Get Started is pressed", async () => {
-    const routerForLogin = createTestRouter({
+  let routes: any;
+  beforeEach(() => {
+    routes = createTestRouter({
       index: Index,
       _layout: RootLayout,
       login: Login,
+      register: Register,
     });
+  });
 
-    const { findByText, findByRole } = renderRouter(routerForLogin, {
+  it("Should navigate to login page when Get Started is pressed", async () => {
+    const { findByText, findByRole } = renderRouter(routes, {
       initialUrl: "/",
     });
 
@@ -26,22 +29,17 @@ describe("Landing screen", () => {
   });
 
   it("Should navigate to register route when Register is pressed", async () => {
-    const routerForRegister = createTestRouter({
-      index: Index,
-      _layout: RootLayout,
-      login: Login,
-      register: Register,
+    const { findByText, findByRole } = renderRouter(routes, {
+      initialUrl: "/",
     });
 
-    const { findByText, findByRole } = renderRouter(routerForRegister, {
-        initialUrl: "/",
-      });
-  
-      await findByText("Welcome to ArthSaathi!");
-      const button = await findByRole("button", { name: "Get started" });
-      await user.press(button);
-      const registerButton = await findByRole("button", { name: new RegExp(/Register/) });
-      await user.press(registerButton);
-      await findByText("Join ArthSaathi!");
+    await findByText("Welcome to ArthSaathi!");
+    const button = await findByRole("button", { name: "Get started" });
+    await user.press(button);
+    const registerButton = await findByRole("button", {
+      name: new RegExp(/Register/),
+    });
+    await user.press(registerButton);
+    await findByText("Join ArthSaathi!");
   });
 });

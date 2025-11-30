@@ -8,6 +8,8 @@ import Index from "../../app/index";
 import RootLayout from "../../app/_layout";
 import Login from "../../app/login";
 import Register from "../../app/register";
+import TabLayout from "../../app/(signed-in)/(tabs)/_layout";
+import SignedIn from "../../app/(signed-in)/(tabs)";
 import { TestQueryWrapper } from "../../test-setup/wrappers/TestQueryWrapper";
 
 describe("Logout functionality from profile page", () => {
@@ -19,7 +21,11 @@ describe("Logout functionality from profile page", () => {
     login: Login,
     register: Register,
     "(signed-in)/_layout": SignedInLayout,
+    "(signed-in)/(tabs)/_layout": TabLayout,
+    "(signed-in)/(tabs)/index": SignedIn,
     "(signed-in)/(tabs)/profile": Profile,
+    "(signed-in)/(tabs)/money": null,
+    "(signed-in)/categories": null,
   });
 
   it("Should navigate to index page when logout is pressed", async () => {
@@ -27,6 +33,8 @@ describe("Logout functionality from profile page", () => {
       initialUrl: "(signed-in)/(tabs)/profile",
       wrapper: TestQueryWrapper,
     });
+    const profileTabButton = await findByText("Profile");
+    await user.press(profileTabButton);
 
     const logoutItem = await findByText("Logout");
     await user.press(logoutItem);

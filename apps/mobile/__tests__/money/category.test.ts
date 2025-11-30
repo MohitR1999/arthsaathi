@@ -10,12 +10,14 @@ import SignedInLayout from "../../app/(signed-in)/_layout";
 import Profile from "../../app/(signed-in)/(tabs)/profile";
 import Money from "../../app/(signed-in)/(tabs)/money";
 import Categories from "../../app/(signed-in)/categories";
+import { UserEventInstance } from "@testing-library/react-native/build/user-event/setup";
 
 describe("Money / Sub category tests", () => {
-  const user = userEvent.setup();
-
-  it("Should list all sub categories on manage categories page", async () => {
-    const routerForRegister = createTestRouter({
+  let routes: any = null;
+  let user: UserEventInstance;
+  beforeEach(() => {
+    user = userEvent.setup();
+    routes = createTestRouter({
       _layout: RootLayout,
       index: Index,
       login: null,
@@ -27,13 +29,12 @@ describe("Money / Sub category tests", () => {
       "(signed-in)/(tabs)/money": Money,
       "(signed-in)/categories": Categories,
     });
+  });
 
-    const { findByText } = renderRouter(
-      routerForRegister,
-      {
-        initialUrl: "/(signed-in)/(tabs)/profile",
-      },
-    );
+  it("Should list all sub categories on manage categories page", async () => {
+    const { findByText } = renderRouter(routes, {
+      initialUrl: "/(signed-in)/(tabs)/profile",
+    });
     const profileTab = await findByText("Profile");
     await user.press(profileTab);
 
@@ -42,5 +43,18 @@ describe("Money / Sub category tests", () => {
     await user.press(manageCategoriesButton);
 
     await findByText("Food - Eating out");
+  });
+
+  it("Should create a category successfully on manage categories page", async () => {
+    const { findByText, findByTestId } = renderRouter(routes, {
+      initialUrl: "/(signed-in)/(tabs)/profile",
+    });
+
+    // On manage categories page, list all sub categories
+    const manageCategoriesButton = await findByText("Manage Categories");
+    await user.press(manageCategoriesButton);
+
+    const fab = await findByTestId("create");
+    await user.press(fab);
   });
 });
