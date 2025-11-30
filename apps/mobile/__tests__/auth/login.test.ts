@@ -4,24 +4,31 @@ import Index from "../../app/index";
 import RootLayout from "../../app/_layout";
 import SignedInLayout from "../../app/(signed-in)/_layout";
 import SignedIn from "../../app/(signed-in)/(tabs)";
+import TabLayout from "../../app/(signed-in)/(tabs)/_layout";
 import Login from "../../app/login";
-import Register from "../../app/register";
 import { TestQueryWrapper } from "../../test-setup/wrappers/TestQueryWrapper";
 
 describe("Login screen", () => {
   const user = userEvent.setup();
+  let routes: any;
 
-  const routerForLogin = createTestRouter({
-    index: Index,
-    _layout: RootLayout,
-    login: Login,
-    register: Register,
-    "(signed-in)/_layout": SignedInLayout,
-    "(signed-in)/index": SignedIn,
+  beforeEach(() => {
+    routes = createTestRouter({
+      index: Index,
+      _layout: RootLayout,
+      login: Login,
+      register: null,
+      "(signed-in)/_layout": SignedInLayout,
+      "(signed-in)/(tabs)/_layout": TabLayout,
+      "(signed-in)/(tabs)/index": SignedIn,
+      "(signed-in)/(tabs)/profile": null,
+      "(signed-in)/(tabs)/money": null,
+      "(signed-in)/categories": null,
+    });
   });
 
   it("Should navigate to home page when correct credentials are provided", async () => {
-    const { findByRole, findByTestId } = renderRouter(routerForLogin, {
+    const { findByRole, findByTestId } = renderRouter(routes, {
       initialUrl: "login",
       wrapper: TestQueryWrapper,
     });
