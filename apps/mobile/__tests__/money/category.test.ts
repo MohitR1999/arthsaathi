@@ -8,8 +8,8 @@ import TabLayout from "../../app/(signed-in)/(tabs)/_layout";
 import TabIndex from "../../app/(signed-in)/(tabs)/";
 import SignedInLayout from "../../app/(signed-in)/_layout";
 import Profile from "../../app/(signed-in)/(tabs)/profile";
-import Money from "../../app/(signed-in)/(tabs)/money";
 import Categories from "../../app/(signed-in)/categories";
+import CreateCategory from "../../app/(signed-in)/create-category";
 import { UserEventInstance } from "@testing-library/react-native/build/user-event/setup";
 
 describe("Money / Sub category tests", () => {
@@ -20,14 +20,12 @@ describe("Money / Sub category tests", () => {
     routes = createTestRouter({
       _layout: RootLayout,
       index: Index,
-      login: null,
-      register: null,
       "(signed-in)/(tabs)/index": TabIndex,
       "(signed-in)/(tabs)/_layout": TabLayout,
       "(signed-in)/_layout": SignedInLayout,
       "(signed-in)/(tabs)/profile": Profile,
-      "(signed-in)/(tabs)/money": Money,
       "(signed-in)/categories": Categories,
+      "(signed-in)/create-category": CreateCategory,
     });
   });
 
@@ -45,8 +43,8 @@ describe("Money / Sub category tests", () => {
     await findByText("Food - Eating out");
   });
 
-  it("Should create a category successfully on manage categories page", async () => {
-    const { findByText, findByTestId } = renderRouter(routes, {
+  it("Should create an expense sub-category successfully on manage categories page", async () => {
+    const { findByText, findByTestId, findByRole } = renderRouter(routes, {
       initialUrl: "/(signed-in)/(tabs)/profile",
     });
 
@@ -56,5 +54,37 @@ describe("Money / Sub category tests", () => {
 
     const fab = await findByTestId("create");
     await user.press(fab);
+
+    await findByText("Create a sub-category")
+    const expenseCategory = await findByTestId("expense-btn");
+    await user.press(expenseCategory)
+    const name = await findByTestId("sub-category-name")
+    const submit = await findByRole("button", { name: "Submit" });
+    await user.type(name, "Shopping - Essentials");
+    await user.press(submit);
+    await findByText("Sub category created successfully");
+  });
+
+  it("Should create an income sub-category successfully on manage categories page", async () => {
+    const { findByText, findByTestId, findByRole } = renderRouter(routes, {
+      initialUrl: "/(signed-in)/(tabs)/profile",
+    });
+
+    // On manage categories page, list all sub categories
+    const manageCategoriesButton = await findByText("Manage Categories");
+    await user.press(manageCategoriesButton);
+
+    const fab = await findByTestId("create");
+    await user.press(fab);
+
+    await findByText("Create a sub-category")
+    const incomeCategory = await findByTestId("income-btn");
+    await user.press(incomeCategory)
+
+    const name = await findByTestId("sub-category-name")
+    const submit = await findByRole("button", { name: "Submit" });
+    await user.type(name, "Income - Investments");
+    await user.press(submit);
+    await findByText("Sub category created successfully");
   });
 });
