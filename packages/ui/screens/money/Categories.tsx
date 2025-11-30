@@ -11,6 +11,7 @@ import {
 } from "react-native-paper";
 import { View, KeyboardAvoidingView, Platform, FlatList } from "react-native";
 import { Category, SubCategory } from "@arthsaathi/helpers/types";
+import { router } from "expo-router";
 
 type CategoriesProps = {
   backHandler: () => void;
@@ -130,6 +131,9 @@ const Categories = ({
           <FAB
             icon="plus"
             testID="create"
+            onPress={() => {
+              router.navigate("/create-category")
+            }}
             style={{
               position: "absolute",
               margin: 16,
