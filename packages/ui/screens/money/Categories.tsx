@@ -129,6 +129,7 @@ const Categories = ({
           </View>
           <FAB
             icon="plus"
+            testID="create"
             style={{
               position: "absolute",
               margin: 16,
