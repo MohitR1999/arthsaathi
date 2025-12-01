@@ -9,7 +9,13 @@ import {
   useTheme,
   ActivityIndicator,
 } from "react-native-paper";
-import { View, KeyboardAvoidingView, Platform, FlatList } from "react-native";
+import {
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  FlatList,
+  Dimensions,
+} from "react-native";
 import { Category, SubCategory } from "@arthsaathi/helpers/types";
 import { router } from "expo-router";
 
@@ -21,39 +27,36 @@ type CategoriesProps = {
   loading: boolean;
 };
 
-const ListItem = ({ sub_category, category }: SubCategory) => {
+const ListItem = ({ sub_category, category, id }: SubCategory) => {
   const theme = useTheme();
+  const screenWidth = Dimensions.get("screen").width;
   return (
-      <Surface
-        elevation={0}
+    <Surface
+      elevation={0}
+      style={{
+        backgroundColor: theme.colors.backdrop,
+        borderRadius: 10,
+        marginTop: 8,
+        flex: 1,
+      }}
+    >
+      <List.Item
         style={{
-          backgroundColor: theme.colors.backdrop,
-          borderRadius: 100,
-          marginTop: 8,
-          flex: 1,
+          width: screenWidth * 0.9,
         }}
-      >
-        <List.Item
-          title={sub_category}
-          left={(props) => {
-            if (category === "EXPENSE") {
-              return (
-                <List.Icon
-                  {...props}
-                  icon="arrow-top-right-thin-circle-outline"
-                />
-              );
-            } else {
-              return (
-                <List.Icon
-                  {...props}
-                  icon="arrow-bottom-left-thin-circle-outline"
-                />
-              );
-            }
-          }}
-        />
-      </Surface>
+        onLongPress={() => {
+          console.log(`Long press with id: ${id}`)
+        }}
+        title={sub_category}
+        left={(props) => {
+          if (category === "EXPENSE") {
+            return <List.Icon {...props} icon="cash-fast" />;
+          } else {
+            return <List.Icon {...props} icon="cash-refund" />;
+          }
+        }}
+      />
+    </Surface>
   );
 };
 
@@ -99,11 +102,13 @@ const Categories = ({
                   {
                     value: "EXPENSE",
                     label: "Expense",
+                    icon: "cash-minus",
                   },
 
                   {
                     value: "INCOME",
                     label: "Income",
+                    icon: "cash-plus",
                   },
                 ]}
               />
@@ -132,7 +137,7 @@ const Categories = ({
             icon="plus"
             testID="create"
             onPress={() => {
-              router.navigate("/create-category")
+              router.navigate("/create-category");
             }}
             style={{
               position: "absolute",
