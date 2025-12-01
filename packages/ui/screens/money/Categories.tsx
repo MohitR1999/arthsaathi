@@ -8,6 +8,9 @@ import {
   Surface,
   useTheme,
   ActivityIndicator,
+  Portal,
+  Modal,
+  Menu
 } from "react-native-paper";
 import {
   View,
@@ -30,33 +33,61 @@ type CategoriesProps = {
 const ListItem = ({ sub_category, category, id }: SubCategory) => {
   const theme = useTheme();
   const screenWidth = Dimensions.get("screen").width;
+  const [visible, setVisible] = React.useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
   return (
-    <Surface
-      elevation={0}
-      style={{
-        backgroundColor: theme.colors.backdrop,
-        borderRadius: 10,
-        marginTop: 8,
-        flex: 1,
-      }}
-    >
-      <List.Item
+    <>
+      <Surface
+        elevation={0}
         style={{
-          width: screenWidth * 0.9,
+          backgroundColor: theme.colors.backdrop,
+          borderRadius: 10,
+          marginTop: 8,
+          flex: 1,
         }}
-        onLongPress={() => {
-          console.log(`Long press with id: ${id}`)
-        }}
-        title={sub_category}
-        left={(props) => {
-          if (category === "EXPENSE") {
-            return <List.Icon {...props} icon="cash-fast" />;
-          } else {
-            return <List.Icon {...props} icon="cash-refund" />;
-          }
-        }}
-      />
-    </Surface>
+      >
+        <List.Item
+          style={{
+            width: screenWidth * 0.9,
+          }}
+          onLongPress={() => {
+            console.log(`Long press with id: ${id}`);
+            showModal();
+          }}
+          title={sub_category}
+          left={(props) => {
+            if (category === "EXPENSE") {
+              return <List.Icon {...props} icon="cash-fast" />;
+            } else {
+              return <List.Icon {...props} icon="cash-refund" />;
+            }
+          }}
+        />
+      </Surface>
+      <Portal>
+        <Modal
+          style={{
+            borderRadius: 10,
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          visible={visible}
+          onDismiss={hideModal}
+        >
+          <Surface elevation={2}>
+            <View style={{
+              padding: 8
+            }}>
+               <Menu.Item leadingIcon="pencil" onPress={() => {}} title="Edit Subcategory" />
+               <Menu.Item leadingIcon="delete" onPress={() => {}} title="Delete Subcategory" />
+            </View>
+          </Surface>
+        </Modal>
+      </Portal>
+    </>
   );
 };
 
